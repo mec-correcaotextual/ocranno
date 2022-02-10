@@ -26,7 +26,4 @@ WORKDIR /var/www
 
 COPY . /var/www/
 
-RUN composer update
-RUN composer install
-
 USER $user

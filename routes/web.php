@@ -29,6 +29,7 @@ Route::get('/users/search', 'UserController@search')->name('users.search');
 Route::get('/project', 'ProjectController@index')->name('project.index');
 Route::post('/project/store', 'ProjectController@store');
 Route::post('/project/upload', 'ProjectController@upload');
+Route::post('/project/upload/text', 'ProjectController@upload_text');
 
 // Pages routes
 Route::get('/pages', 'PageController@index')->name('pages.index');

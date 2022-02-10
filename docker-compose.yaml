@@ -14,6 +14,8 @@ services:
       MYSQL_USER: db_user
       MYSQL_PASSWORD: my_secret_password
       MYSQL_ROOT_PASSWORD: my_secret_password
+    networks:
+      - ocranno-network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -27,10 +29,12 @@ services:
     restart: always
     ports:
       - 8081:80
+    networks:
+      - ocranno-network
 
   ocranno:
     container_name: ocranno_app
-    command: sh -c "php artisan serve --host=0.0.0.0 --port=8080 && bash ./scripts/init.sh"
+    command: sh -c "composer update && composer install && php artisan serve --host=0.0.0.0 --port=8080"
     links:
       - db
       - phpmyadmin
@@ -44,6 +48,15 @@ services:
     restart: always
     env_file:
       - ./.env
+    volumes:
+      - ./:/var/www
+    networks:
+      - ocranno-network
+
+networks:
+  default:
+    external: true
+    name: ocranno-network
 
 volumes:
   dbdata:

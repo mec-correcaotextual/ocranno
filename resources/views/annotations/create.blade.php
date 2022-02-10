@@ -17,26 +17,26 @@
 @section('content')
 
     <div class="container">
-        <form method="POST" action="/annotations/{{ $sentence->id }}">
+        <form method="POST" action="/annotations/{{ $sentence->id }}">  
             @csrf
             @method('PUT')
 
             <div class="annotation row">
 
-                <div class="pdf-page col-8">
-                    @if(file_exists(public_path()."/pdfs/".$page->file_name))
+                <div class="pdf-page col-5">
+                    @if(file_exists(public_path()."/texts/".$page->file_name))
 
-                        <small id="findHelpBlock" class="form-text text-muted">
+                        <!-- <small id="findHelpBlock" class="form-text text-muted">
                             <span class="badge badge-lg badge-light">Ctrl+F</span> can help you to find the sentence in the file
-                        </small>
+                        </small> -->
 
-                        <embed src="/pdfs/{{ $page->file_name }}" class="box-pdf-file" frameborder="0" allowfullscreen>
+                        <embed src="/texts/{{ $page->file_name }}" class="box-pdf-file" frameborder="0" allowfullscreen>
                     @else
 
                         <div class="card border-secondary mb-3 box-pdf-file">
                             <div class="card-body text-secondary">
                                 <h5 class="card-title">Sorry</h5>
-                                <p class="card-text">the original PDF file for the current sentence was not found.</p>
+                                <p class="card-text">the original image file for the current sentence was not found.</p>
                                 <p>The file name should be: "{{ $page->file_name }}"</p>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                     @endif
                 </div>
         
-                <div class="sentences col-4">
+                <div class="sentences col-7">
 
                     <div class="form-group d-flex justify-content-between annotation-info">
                         <div>Page: {{ $page->id }}</div>
@@ -52,9 +52,25 @@
                         <div>Annotations: <strong>{{ $page->annotations.'/'.$page->wrong_words }}</strong></div>
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="exampleFormControlTextarea1">Sentence</label>
                         <textarea class="form-control" name="sentence" id="sentence" rows="4" readonly>{{ $sentence->sentence }}</textarea>
+                    </div> -->
+
+                    <div class="form-group">
+                        @if(file_exists(public_path()."/pngs/".$sentence->sentence))
+                            <img src="/pngs/{{ $sentence->sentence }}" class="form-control" style="height: 200px">
+                        @else
+
+                            <div class="card border-secondary mb-3 box-pdf-file">
+                                <div class="card-body text-secondary">
+                                    <h5 class="card-title">Sorry</h5>
+                                    <p class="card-text">the original image file for the current sentence was not found.</p>
+                                    <p>The file name should be: "{{ $sentence->sentence }}"</p>
+                                </div>
+                            </div>
+
+                        @endif
                     </div>
 
                     <div class="form-group">
@@ -71,7 +87,7 @@
                         <small id="findHelpBlock" class="form-text text-muted">
                             *If the sentence is correct, just click on submit.<br>
                             **Since our goal is to improve the quality of the extracted text in relation to the original contents, please,
-                            do not correct typos found in the PDF itself. The corrected version should match the PDF.
+                            do not correct typos found in the image itself. The corrected version should match the image.
                         </small>
                     </div>
 

@@ -56,17 +56,43 @@
 
             <div class="form-group col-md-8">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="pdf_files" name="pdf_files[]" accept="pdf/*" multiple required>
-                    <label class="custom-file-label" for="pdf_files">Select PDF files (max of 20 files)</label>
+                    <input type="file" class="custom-file-input" id="png_files" name="png_files[]" accept="png/*" multiple required>
+                    <label class="custom-file-label" for="png_files">Select PNG files (max of 20 files)</label>
                 </div>
 
-                @if($errors->has('pdf_files.*'))
-                    <p class="text-danger">{{ $errors->first('pdf_files.*') }}</p>
+                @if($errors->has('png_files.*'))
+                    <p class="text-danger">{{ $errors->first('png_files.*') }}</p>
                 @endif
             </div>
 
             <div class="form-group col-md-4">
-                <button type="submit" class="btn btn-secondary btn-block" id="btn-pdfs" onclick="start_loading(this)">Process PDF files</button>
+                <button type="submit" class="btn btn-secondary btn-block" id="btn-pngs" onclick="start_loading(this)">Process PNG files</button>
+            </div>
+
+        </div>
+
+    </form>
+
+    {{-- SAVE TEXT FILE --}}
+
+    <form method="POST" action="/project/upload/text" enctype="multipart/form-data">
+        @csrf
+
+        <div class="form-row">
+
+            <div class="form-group col-md-8">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="text_file" name="text_file[]" accept="png/*" multiple required>
+                    <label class="custom-file-label" for="text_file">Select text file</label>
+                </div>
+
+                @if($errors->has('text_file.*'))
+                    <p class="text-danger">{{ $errors->first('text_file.*') }}</p>
+                @endif
+            </div>
+
+            <div class="form-group col-md-4">
+                <button type="submit" class="btn btn-secondary btn-block" id="btn-text" onclick="start_loading(this)">Process Text file</button>
             </div>
 
         </div>
@@ -101,10 +127,17 @@
         })
 
         /* show number of files selected */
-        document.getElementById('pdf_files').addEventListener('change',function(e){
-            var files = document.getElementById("pdf_files").files.length;
+        document.getElementById('png_files').addEventListener('change',function(e){
+            var files = document.getElementById("png_files").files.length;
             var nextSibling = e.target.nextElementSibling;
             nextSibling.innerText = files + " files selected";
+        })
+
+        /* show file value after file selected */
+        document.getElementById('text_file').addEventListener('change',function(e){
+            var fileName = document.getElementById("text_file").files[0].name;
+            var nextSibling = e.target.nextElementSibling;
+            nextSibling.innerText = fileName;
         })
 
         $(function(){
@@ -113,12 +146,13 @@
                 event.stopPropagation();
         
                 $("#btn-json").prop('disabled', true);
-                $("#btn-pdfs").prop('disabled', true);
+                $("#btn-pngs").prop('disabled', true);
+                $("#btn-text").prop('disabled', true);
             });
         });
 
         function start_loading(OBJ) {
-            if ((OBJ.id == 'btn-json' && $("#json_file").val() == "") || (OBJ.id == 'btn-pdfs' && $("#pdf_files").val() == ""))
+            if ((OBJ.id == 'btn-json' && $("#json_file").val() == "") || (OBJ.id == 'btn-pngs' && $("#png_files").val() == "") || (OBJ.id == 'btn-text' && $("#text_file").val() == ""))
                 return ;
 
             OBJ.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...';

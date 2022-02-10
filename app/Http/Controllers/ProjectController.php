@@ -102,14 +102,39 @@ class ProjectController extends Controller
     public function upload(Request $request)	
     {
         $request->validate([
-            'pdf_files' => 'required',
-            'pdf_files.*' => 'mimes:pdf'
+            'png_files' => 'required',
+            'png_files.*' => 'mimes:png'
         ]);
 
-        $files = $request->file('pdf_files');
+        $files = $request->file('png_files');
 
         foreach($files as $file)
-            $file->move(public_path("pdfs/"), $file->getClientOriginalName());
+            $file->move(public_path("pngs/"), $file->getClientOriginalName());
+
+        $data = array(
+            "response" => "Files uploaded successfully!"
+        );
+
+        return response()
+            ->view('project.index', $data, 200);
+    }
+
+    /**	
+     * Upload Text file to the project
+     *	
+     * @param  \Illuminate\Http\Request  $request	
+     * @return \Illuminate\Http\Response	
+     */	
+    public function upload_text(Request $request)	
+    {
+        $request->validate([
+            'text_file' => 'required',
+        ]);
+
+        $files = $request->file('text_file');
+
+        foreach($files as $file)
+            $file->move(public_path("texts/"), $file->getClientOriginalName());
 
         $data = array(
             "response" => "Files uploaded successfully!"
