@@ -14,8 +14,6 @@ services:
       MYSQL_USER: db_user
       MYSQL_PASSWORD: my_secret_password
       MYSQL_ROOT_PASSWORD: my_secret_password
-    networks:
-      - ocranno-network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -29,8 +27,6 @@ services:
     restart: always
     ports:
       - 8081:80
-    networks:
-      - ocranno-network
 
   ocranno:
     container_name: ocranno_app
@@ -50,13 +46,11 @@ services:
       - ./.env
     volumes:
       - ./:/var/www
-    networks:
-      - ocranno-network
 
 networks:
   default:
-    external: true
-    name: ocranno-network
+    external:
+      name: ocranno-network
 
 volumes:
   dbdata:
