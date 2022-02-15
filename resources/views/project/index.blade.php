@@ -47,7 +47,7 @@
 
     <br>
 
-    {{-- SAVE MULTIPLES PDF FILES --}}
+    {{-- SAVE MULTIPLES PNG FILES --}}
 
     <form method="POST" action="/project/upload" enctype="multipart/form-data">
         @csrf
@@ -82,7 +82,7 @@
 
             <div class="form-group col-md-8">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="text_file" name="text_file[]" accept="png/*" multiple required>
+                    <input type="file" class="custom-file-input" id="text_file" name="text_file[]" accept="pdf/*" multiple required>
                     <label class="custom-file-label" for="text_file">Select text file</label>
                 </div>
 
