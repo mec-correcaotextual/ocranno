@@ -7,7 +7,7 @@ services:
     container_name: mysql
     env_file:
       - .env
-    restart: unless-stopped
+    restart: always
     tty: true
     environment:
       MYSQL_DATABASE: ocranno
